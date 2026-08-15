@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Search, synchronize and export song lyrics."
+  >
+
+  <title>Lyrics Finder</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+</head>
+
+
+<body>
+
+  <main class="container">
+
+
+    <!-- =====================================
+         HERO
+    ====================================== -->
+
+    <header class="hero">
+
+      <div class="brand-icon">
+        ♪
+      </div>
+
+      <div class="eyebrow">
+        LYRICS WORKSPACE
+      </div>
+
+      <h1>
+        Lyrics Finder
+      </h1>
+
+      <p class="subtitle">
+        Search, synchronize and export lyrics
+      </p>
+
+    </header>
+
+
+
+    <!-- =====================================
+         SEARCH
+    ====================================== -->
+
+    <section class="search-box">
+
+      <div class="input-wrapper">
+
+        <label for="songInput">
+          Song
+        </label>
+
+        <input
+          id="songInput"
+          type="text"
+          placeholder="Enter song title"
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <div class="input-wrapper">
+
+        <label for="artistInput">
+          Artist
+          <span>Optional</span>
+        </label>
+
+        <input
+          id="artistInput"
+          type="text"
+          placeholder="Enter artist name"
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <button
+        id="searchBtn"
+        type="button"
+      >
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <span>
+          Search
+        </span>
+
+        <span class="button-arrow">
+          →
+        </span>
+
+      </button>
+
+    </section>
+
+
+    <div class="keyboard-hint">
+      Press <kbd>Enter</kbd> to search
+    </div>
+
+
+
+    <!-- =====================================
+         STATUS
+    ====================================== -->
+
+    <div
+      id="status"
+      aria-live="polite"
+    ></div>
+
+
+
+    <!-- =====================================
+         RESULTS
+    ====================================== -->
+
+    <section class="results-section">
+
+      <div
+        id="resultsHeader"
+        class="results-header"
+        style="display:none;"
+      >
+
+        <div>
+
+          <h2>
+            Search Results
+          </h2>
+
+          <p id="resultsCount"></p>
+
+        </div>
+
+      </div>
+
+
+      <div id="resultsBox"></div>
+
+
+      <!-- EMPTY STATE -->
+
+      <div
+        id="emptyState"
+        class="empty-state"
+      >
+
+        <div class="empty-icon">
+          ♪
+        </div>
+
+        <h3>
+          Find your lyrics
+        </h3>
+
+        <p>
+          Search for a song to get started.
+        </p>
+
+      </div>
+
+
+      <!-- LOADING STATE -->
+
+      <div
+        id="loadingState"
+        class="state-card"
+        style="display:none;"
+      >
+
+        <div class="big-spinner"></div>
+
+        <h3>
+          Searching lyrics
+        </h3>
+
+        <p>
+          Looking for matching songs...
+        </p>
+
+      </div>
+
+
+      <!-- ERROR STATE -->
+
+      <div
+        id="errorState"
+        class="state-card error-state"
+        style="display:none;"
+      >
+
+        <div class="state-icon">
+          !
+        </div>
+
+        <h3>
+          Something went wrong
+        </h3>
+
+        <p id="errorMessage">
+          Unable to complete the request.
+        </p>
+
+        <button
+          id="retryBtn"
+          type="button"
+        >
+          Try Again
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         LYRICS
+    ====================================== -->
+
+    <section
+      id="lyricsBox"
+      class="lyrics-box"
+      style="display:none;"
+    >
+
+
+      <!-- BACK -->
+
+      <button
+        id="backToResultsBtn"
+        class="back-button"
+        type="button"
+      >
+
+        <span>
+          ←
+        </span>
+
+        Back to Results
+
+      </button>
+
+
+
+      <!-- SONG HEADER -->
+
+      <div class="lyrics-header">
+
+        <div
+          id="lyricsArtwork"
+          class="lyrics-artwork"
+        >
+          ♪
+        </div>
+
+
+        <div class="song-information">
+
+          <div class="song-label">
+            NOW VIEWING
+          </div>
+
+          <div
+            id="songTitle"
+            class="song-title"
+          ></div>
+
+          <div
+            id="songMeta"
+            class="song-meta"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- LYRICS -->
+
+      <div
+        id="lyrics"
+        class="lyrics-content"
+      ></div>
+
+
+
+      <!-- ACTIONS -->
+
+      <div
+        id="lyricsActions"
+        class="lrc-actions"
+        style="display:none;"
+      >
+
+        <button
+          id="copyLrcBtn"
+          type="button"
+        >
+          Copy Lyrics
+        </button>
+
+
+        <button
+          id="downloadLrcBtn"
+          class="primary-button"
+          type="button"
+        >
+          Download LRC
+        </button>
+
+      </div>
+
+
+
+      <!-- =================================
+           AUDIO
+      ================================== -->
+
+      <section
+        id="playerBox"
+        class="player-box"
+      >
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+            ♪
+          </div>
+
+          <div>
+
+            <h2>
+              Audio
+            </h2>
+
+            <p>
+              Select an audio file for synchronization.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <input
+          id="audioInput"
+          type="file"
+          accept="audio/*"
+        >
+
+
+        <audio
+          id="audioPlayer"
+          controls
+        ></audio>
+
+      </section>
+
+
+
+      <!-- =================================
+           MANUAL SYNC
+      ================================== -->
+
+      <section
+        id="manualSyncBox"
+        class="manual-sync-box"
+        style="display:none;"
+      >
+
+        <div class="section-heading">
+
+          <div class="section-icon sync-icon">
+            ≋
+          </div>
+
+          <div>
+
+            <h2>
+              Manual Synchronization
+            </h2>
+
+            <p>
+              Press <strong>SPACE</strong> when each lyric line begins.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="sync-controls">
+
+          <button
+            id="startSyncBtn"
+            class="primary-button"
+            type="button"
+          >
+            ▶ Start Sync
+          </button>
+
+
+          <button
+            id="undoSyncBtn"
+            type="button"
+          >
+            ↩ Undo
+          </button>
+
+
+          <button
+            id="resetSyncBtn"
+            type="button"
+          >
+            Reset
+          </button>
+
+
+          <button
+            id="finishSyncBtn"
+            class="success-button"
+            type="button"
+          >
+            ✓ Finish Sync
+          </button>
+
+        </div>
+
+
+        <div
+          id="syncLyrics"
+          class="sync-lyrics"
+        ></div>
+
+      </section>
+
+
+    </section>
+
+
+  </main>
+
+
+  <footer class="footer">
+
+    <span>
+      Lyrics Finder
+    </span>
+
+    <span class="footer-dot">
+      •
+    </span>
+
+    <span>
+      Search · Sync · Export
+    </span>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
